@@ -28,12 +28,12 @@ WITH player3p (id, fname, team_id, game_id, home_team_id, visitor_team_id, seaso
   AND (games.home_team_id = opp_team1.id OR games.visitor_team_id = opp_team1.id)
   )
   
-, fg3m_games AS (SELECT opp_games.id, opp_games.season, SUM(player_stats.fg3m) AS "threes" FROM opp_games
+, fg3m_games AS (SELECT opp_games.id, opp_games.full_name, opp_games.season, SUM(player_stats.fg3m) AS "threes" FROM opp_games
   JOIN player_stats
   ON player_stats.game_id = opp_games.id
-  GROUP BY opp_games.id, opp_games.season
+  GROUP BY opp_games.id, opp_games.season, opp_games.full_name
   )
   
-SELECT season, AVG(threes) FROM fg3m_games
-GROUP BY season
+SELECT full_name, season, AVG(threes) FROM fg3m_games
+GROUP BY season, full_name
 ;
